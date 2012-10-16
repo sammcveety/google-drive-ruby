@@ -212,7 +212,7 @@ module GoogleDrive
         # Note that changes you made by []= etc. is discarded if you haven't called save().
         def reload()
           
-          doc = @session.request(:get, @cells_feed_url)
+          doc = @session.request(:get, "#{@cells_feed_url}?min-row=1&max-row=1")
           @max_rows = doc.css("gs|rowCount").text.to_i()
           @max_cols = doc.css("gs|colCount").text.to_i()
           @title = doc.css("feed > title")[0].text
@@ -220,15 +220,23 @@ module GoogleDrive
           @cells = {}
           @input_values = {}
           @numeric_values = {}
-          doc.css("feed > entry").each() do |entry|
-            cell = entry.css("gs|cell")[0]
-            row = cell["row"].to_i()
-            col = cell["col"].to_i()
-            @cells[[row, col]] = cell.inner_text
-            @input_values[[row, col]] = cell["inputValue"]
-            numeric_value = cell["numericValue"]
-            @numeric_values[[row, col]] = numeric_value ? numeric_value.to_f() : nil
+
+          # Only downloading 50K cells per request prevents it from timing out
+          cells_per_request = 50_000 / @max_cols
+          (1..@max_rows).to_a.each_slice(cells_per_request) do |row_window|
+            doc = @session.request(:get, "#{@cells_feed_url}?min-row=#{row_window.min}&max-row=#{row_window.max}")
+
+            doc.css("feed > entry").each() do |entry|
+              cell = entry.css("gs|cell")[0]
+              row = cell["row"].to_i()
+              col = cell["col"].to_i()
+              @cells[[row, col]] = cell.inner_text
+              @input_values[[row, col]] = cell["inputValue"]
+              numeric_value = cell["numericValue"]
+              @numeric_values[[row, col]] = numeric_value ? numeric_value.to_f() : nil
+            end
           end
+
           @modified.clear()
           @meta_modified = false
           return true
