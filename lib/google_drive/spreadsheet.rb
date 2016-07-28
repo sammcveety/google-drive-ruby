@@ -9,7 +9,7 @@ require "google_drive/acl"
 require "google_drive/file"
 
 
-module GoogleDrive
+module OldGoogleDrive
     
     # A spreadsheet.
     #

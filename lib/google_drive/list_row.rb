@@ -7,7 +7,7 @@ require "google_drive/util"
 require "google_drive/error"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Hash-like object returned by GoogleDrive::List#[].
     class ListRow

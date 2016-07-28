@@ -8,7 +8,7 @@ require "google_drive/util"
 require "google_drive/acl"
 
 
-module GoogleDrive
+module OldGoogleDrive
     
     # A file in Google Drive, including Google Docs document/spreadsheet/presentation.
     #

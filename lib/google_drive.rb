@@ -4,7 +4,7 @@
 require "google_drive/session"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Authenticates with given +mail+ and +password+, and returns GoogleDrive::Session
     # if succeeds. Raises GoogleDrive::AuthenticationError if fails.

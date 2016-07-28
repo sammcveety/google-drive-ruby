@@ -6,7 +6,7 @@ require "google_drive/error"
 require "google_drive/list_row"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Provides access to cells using column names.
     # Use GoogleDrive::Worksheet#list to get GoogleDrive::List object.

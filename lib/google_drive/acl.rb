@@ -5,7 +5,7 @@
 
 require "google_drive/acl_entry"
 
-module GoogleDrive
+module OldGoogleDrive
 
     # ACL (access control list) of a spreadsheet.
     #

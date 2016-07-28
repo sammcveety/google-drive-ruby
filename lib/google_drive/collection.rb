@@ -6,7 +6,7 @@ require "google_drive/error"
 require "google_drive/spreadsheet"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Use GoogleDrive::Session#root_collection, GoogleDrive::Collection#subcollections,
     # or GoogleDrive::Session#collection_by_url to get GoogleDrive::Collection object.

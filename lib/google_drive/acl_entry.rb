@@ -4,7 +4,7 @@
 # Author: Phuogn Nguyen <https://github.com/phuongnd08>
 # The license of this source is "New BSD Licence"
 
-module GoogleDrive
+module OldGoogleDrive
 
     # An entry of an ACL (access control list) of a spreadsheet.
     #

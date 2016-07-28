@@ -19,7 +19,7 @@ require "google_drive/collection"
 require "google_drive/file"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Use GoogleDrive.login or GoogleDrive.saved_session to get
     # GoogleDrive::Session object.

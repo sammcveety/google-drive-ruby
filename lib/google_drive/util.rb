@@ -4,7 +4,7 @@
 require "cgi"
 
 
-module GoogleDrive
+module OldGoogleDrive
     
     module Util #:nodoc:
 

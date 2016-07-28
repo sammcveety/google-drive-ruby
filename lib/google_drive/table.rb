@@ -6,7 +6,7 @@ require "google_drive/error"
 require "google_drive/record"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # DEPRECATED: Table and Record feeds are deprecated and they will not be available after
     # March 2012.

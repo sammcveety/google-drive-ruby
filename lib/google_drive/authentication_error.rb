@@ -4,7 +4,7 @@
 require "google_drive/error"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # Raised when GoogleDrive.login has failed.
     class AuthenticationError < GoogleDrive::Error

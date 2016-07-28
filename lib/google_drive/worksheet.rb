@@ -9,7 +9,7 @@ require "google_drive/table"
 require "google_drive/list"
 
 
-module GoogleDrive
+module OldGoogleDrive
 
     # A worksheet (i.e. a tab) in a spreadsheet.
     # Use GoogleDrive::Spreadsheet#worksheets to get GoogleDrive::Worksheet object.
