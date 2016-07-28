@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 
-  s.name = "google_drive"
+  s.name = "google_drive_old"
   s.version = "0.3.2"
   s.authors = ["Hiroshi Ichikawa"]
   s.email = ["gimite+github@gmail.com"]
