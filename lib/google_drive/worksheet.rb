@@ -12,7 +12,7 @@ require "google_drive/list"
 module OldGoogleDrive
 
     # A worksheet (i.e. a tab) in a spreadsheet.
-    # Use GoogleDrive::Spreadsheet#worksheets to get GoogleDrive::Worksheet object.
+    # Use OldGoogleDrive::Spreadsheet#worksheets to get OldGoogleDrive::Worksheet object.
     class Worksheet
 
         include(Util)
@@ -42,18 +42,18 @@ module OldGoogleDrive
           # from it.
           if !(@cells_feed_url =~
               %r{^https?://spreadsheets.google.com/feeds/cells/(.*)/(.*)/private/full((\?.*)?)$})
-            raise(GoogleDrive::Error,
+            raise(OldGoogleDrive::Error,
               "Cells feed URL is in unknown format: #{@cells_feed_url}")
           end
           return "https://spreadsheets.google.com/feeds/worksheets/#{$1}/private/full/#{$2}#{$3}"
         end
 
-        # GoogleDrive::Spreadsheet which this worksheet belongs to.
+        # OldGoogleDrive::Spreadsheet which this worksheet belongs to.
         def spreadsheet
           if !@spreadsheet
             if !(@cells_feed_url =~
                 %r{^https?://spreadsheets.google.com/feeds/cells/(.*)/(.*)/private/full(\?.*)?$})
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                 "Cells feed URL is in unknown format: #{@cells_feed_url}")
             end
             @spreadsheet = @session.spreadsheet_by_key($1)
@@ -321,11 +321,11 @@ module OldGoogleDrive
               result.css("atom|entry").each() do |entry|
                 interrupted = entry.css("batch|interrupted")[0]
                 if interrupted
-                  raise(GoogleDrive::Error, "Update has failed: %s" %
+                  raise(OldGoogleDrive::Error, "Update has failed: %s" %
                     interrupted["reason"])
                 end
                 if !(entry.css("batch|status").first["code"] =~ /^2/)
-                  raise(GoogleDrive::Error, "Updating cell %s has failed: %s" %
+                  raise(OldGoogleDrive::Error, "Updating cell %s has failed: %s" %
                     [entry.css("atom|id").text, entry.css("batch|status")[0]["reason"]])
                 end
               end
@@ -362,7 +362,7 @@ module OldGoogleDrive
         # DEPRECATED: Table and Record feeds are deprecated and they will not be available after
         # March 2012.
         #
-        # Creates table for the worksheet and returns GoogleDrive::Table.
+        # Creates table for the worksheet and returns OldGoogleDrive::Table.
         # See this document for details:
         # http://code.google.com/intl/en/apis/spreadsheets/docs/3.0/developers_guide_protocol.html#TableFeeds
         def add_table(table_title, summary, columns, options)
@@ -418,7 +418,7 @@ module OldGoogleDrive
         end
         
         # Provides access to cells using column names, assuming the first row contains column
-        # names. Returned object is GoogleDrive::List which you can use mostly as
+        # names. Returned object is OldGoogleDrive::List which you can use mostly as
         # Array of Hash.
         #
         # e.g. Assuming the first row is ["x", "y"]:

@@ -21,8 +21,8 @@ require "google_drive/file"
 
 module OldGoogleDrive
 
-    # Use GoogleDrive.login or GoogleDrive.saved_session to get
-    # GoogleDrive::Session object.
+    # Use OldGoogleDrive.login or OldGoogleDrive.saved_session to get
+    # OldGoogleDrive::Session object.
     class Session
 
         include(Util)
@@ -30,14 +30,14 @@ module OldGoogleDrive
 
         UPLOAD_CHUNK_SIZE = 512 * 1024
         
-        # The same as GoogleDrive.login.
+        # The same as OldGoogleDrive.login.
         def self.login(mail, password, proxy = nil)
           session = Session.new(nil, ClientLoginFetcher.new({}, proxy))
           session.login(mail, password)
           return session
         end
 
-        # The same as GoogleDrive.login_with_oauth.
+        # The same as OldGoogleDrive.login_with_oauth.
         def self.login_with_oauth(oauth_token)
           case oauth_token
             when OAuth::AccessToken
@@ -45,23 +45,23 @@ module OldGoogleDrive
             when OAuth2::AccessToken
               fetcher = OAuth2Fetcher.new(oauth_token)
             else
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                   "oauth_token is neither OAuth::Token nor OAuth2::Token: %p" % oauth_token)
           end
           return Session.new(nil, fetcher)
         end
 
-        # The same as GoogleDrive.restore_session.
+        # The same as OldGoogleDrive.restore_session.
         def self.restore_session(auth_tokens, proxy = nil)
           return Session.new(auth_tokens, nil, proxy)
         end
         
-        # Creates a dummy GoogleDrive::Session object for testing.
+        # Creates a dummy OldGoogleDrive::Session object for testing.
         def self.new_dummy()
           return Session.new(nil, Object.new())
         end
 
-        # DEPRECATED: Use GoogleDrive.restore_session instead.
+        # DEPRECATED: Use OldGoogleDrive.restore_session instead.
         def initialize(auth_tokens = nil, fetcher = nil, proxy = nil)
           if fetcher
             @fetcher = fetcher
@@ -71,11 +71,11 @@ module OldGoogleDrive
         end
 
         # Authenticates with given +mail+ and +password+, and updates current session object
-        # if succeeds. Raises GoogleDrive::AuthenticationError if fails.
+        # if succeeds. Raises OldGoogleDrive::AuthenticationError if fails.
         # Google Apps account is supported.
         def login(mail, password)
           if !@fetcher.is_a?(ClientLoginFetcher)
-            raise(GoogleDrive::Error,
+            raise(OldGoogleDrive::Error,
                 "Cannot call login for session created by login_with_oauth.")
           end
           begin
@@ -83,7 +83,7 @@ module OldGoogleDrive
               :wise => authenticate(mail, password, :wise),
               :writely => authenticate(mail, password, :writely),
             }
-          rescue GoogleDrive::Error => ex
+          rescue OldGoogleDrive::Error => ex
             return true if @on_auth_fail && @on_auth_fail.call()
             raise(AuthenticationError, "Authentication failed for #{mail}: #{ex.message}")
           end
@@ -92,7 +92,7 @@ module OldGoogleDrive
         # Authentication tokens.
         def auth_tokens
           if !@fetcher.is_a?(ClientLoginFetcher)
-            raise(GoogleDrive::Error,
+            raise(OldGoogleDrive::Error,
                 "Cannot call auth_tokens for session created by " +
                 "login_with_oauth.")
           end
@@ -108,7 +108,7 @@ module OldGoogleDrive
         # When this function returns +true+, it tries again.
         attr_accessor :on_auth_fail
 
-        # Returns list of files for the user as array of GoogleDrive::File or its subclass.
+        # Returns list of files for the user as array of OldGoogleDrive::File or its subclass.
         # You can specify query parameters described at
         # https://developers.google.com/google-apps/documents-list/#getting_a_list_of_documents_and_files
         #
@@ -124,14 +124,14 @@ module OldGoogleDrive
           return doc.css("feed > entry").map(){ |e| entry_element_to_file(e) }
         end
         
-        # Returns GoogleDrive::File or its subclass whose title exactly matches +title+.
+        # Returns OldGoogleDrive::File or its subclass whose title exactly matches +title+.
         # Returns nil if not found. If multiple files with the +title+ are found, returns
         # one of them.
         def file_by_title(title)
           return files("title" => title, "title-exact" => "true")[0]
         end
 
-        # Returns list of spreadsheets for the user as array of GoogleDrive::Spreadsheet.
+        # Returns list of spreadsheets for the user as array of OldGoogleDrive::Spreadsheet.
         # You can specify query parameters e.g. "title", "title-exact".
         #
         # e.g.
@@ -152,7 +152,7 @@ module OldGoogleDrive
           return result
         end
 
-        # Returns GoogleDrive::Spreadsheet with given +key+.
+        # Returns OldGoogleDrive::Spreadsheet with given +key+.
         #
         # e.g.
         #   # http://spreadsheets.google.com/ccc?key=pz7XtlQC-PYx-jrVMJErTcg&hl=ja
@@ -162,7 +162,7 @@ module OldGoogleDrive
           return Spreadsheet.new(self, url)
         end
 
-        # Returns GoogleDrive::Spreadsheet with given +url+. You must specify either of:
+        # Returns OldGoogleDrive::Spreadsheet with given +url+. You must specify either of:
         # - URL of the page you open to access the spreadsheet in your browser
         # - URL of worksheet-based feed of the spreadseet
         #
@@ -185,14 +185,14 @@ module OldGoogleDrive
           return Spreadsheet.new(self, url)
         end
 
-        # Returns GoogleDrive::Spreadsheet with given +title+.
+        # Returns OldGoogleDrive::Spreadsheet with given +title+.
         # Returns nil if not found. If multiple spreadsheets with the +title+ are found, returns
         # one of them.
         def spreadsheet_by_title(title)
           return spreadsheets({"title" => title, "title-exact" => "true"})[0]
         end
         
-        # Returns GoogleDrive::Worksheet with given +url+.
+        # Returns OldGoogleDrive::Worksheet with given +url+.
         # You must specify URL of cell-based feed of the worksheet.
         #
         # e.g.
@@ -214,14 +214,14 @@ module OldGoogleDrive
         end
         
         # Returns a top-level collection whose title exactly matches +title+ as
-        # GoogleDrive::Collection.
+        # OldGoogleDrive::Collection.
         # Returns nil if not found. If multiple collections with the +title+ are found, returns
         # one of them.
         def collection_by_title(title)
           return self.root_collection.subcollection_by_title(title)
         end
         
-        # Returns GoogleDrive::Collection with given +url+.
+        # Returns OldGoogleDrive::Collection with given +url+.
         # You must specify either of:
         # - URL of the page you get when you go to https://docs.google.com/ with your browser and
         #   open a collection
@@ -244,7 +244,7 @@ module OldGoogleDrive
           return Collection.new(self, url)
         end
 
-        # Creates new spreadsheet and returns the new GoogleDrive::Spreadsheet.
+        # Creates new spreadsheet and returns the new OldGoogleDrive::Spreadsheet.
         #
         # e.g.
         #   session.create_spreadsheet("My new sheet")
@@ -400,7 +400,7 @@ module OldGoogleDrive
                 "link[rel='http://schemas.google.com/spreadsheets/2006#worksheetsfeed']")[0]
               return Spreadsheet.new(self, worksheets_feed_link["href"], title)
             else
-              return GoogleDrive::File.new(self, entry)
+              return OldGoogleDrive::File.new(self, entry)
           end
         end
 
@@ -426,7 +426,7 @@ module OldGoogleDrive
             end
             if !(response.code =~ /^[23]/)
               raise(
-                response.code == "401" ? AuthenticationError : GoogleDrive::Error,
+                response.code == "401" ? AuthenticationError : OldGoogleDrive::Error,
                 "Response code #{response.code} for #{method} #{url}: " +
                 CGI.unescapeHTML(response.body))
             end
@@ -450,7 +450,7 @@ module OldGoogleDrive
             when :response
               return response
             else
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                   "Unknown params[:response_type]: %s" % response_type)
           end
         end

@@ -17,8 +17,8 @@ Example to read/write files in Google Drive:
   
   # Logs in.
   # You can also use OAuth. See document of
-  # GoogleDrive.login_with_oauth for details.
-  session = GoogleDrive.login("username@gmail.com", "mypassword")
+  # OldGoogleDrive.login_with_oauth for details.
+  session = OldGoogleDrive.login("username@gmail.com", "mypassword")
   
   # Gets list of remote files.
   for file in session.files
@@ -42,8 +42,8 @@ Example to read/write spreadsheets:
   
   # Logs in.
   # You can also use OAuth. See document of
-  # GoogleDrive.login_with_oauth for details.
-  session = GoogleDrive.login("username@gmail.com", "mypassword")
+  # OldGoogleDrive.login_with_oauth for details.
+  session = OldGoogleDrive.login("username@gmail.com", "mypassword")
   
   # First worksheet of
   # https://docs.google.com/spreadsheet/ccc?key=pz7XtlQC-PYx-jrVMJErTcg

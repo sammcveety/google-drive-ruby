@@ -10,7 +10,7 @@ module OldGoogleDrive
     # DEPRECATED: Table and Record feeds are deprecated and they will not be available after
     # March 2012.
     #
-    # Use GoogleDrive::Table#records to get GoogleDrive::Record objects.
+    # Use OldGoogleDrive::Table#records to get OldGoogleDrive::Record objects.
     class Record < Hash
         include(Util)
 

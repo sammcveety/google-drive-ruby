@@ -9,7 +9,7 @@ require "google_drive/error"
 
 module OldGoogleDrive
 
-    # Hash-like object returned by GoogleDrive::List#[].
+    # Hash-like object returned by OldGoogleDrive::List#[].
     class ListRow
         
         include(Enumerable)

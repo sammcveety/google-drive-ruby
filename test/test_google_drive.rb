@@ -103,7 +103,7 @@ class TC_GoogleDrive < Test::Unit::TestCase
       # This should be the one with title exact match, not ss_copy.
       assert_equal(ss_title, ss5.title)
 
-      # Access via GoogleDrive::Worksheet#list.
+      # Access via OldGoogleDrive::Worksheet#list.
       ws.list.keys = ["x", "y"]
       ws.list.push({"x" => "1", "y" => "2"})
       ws.list.push({"x" => "3", "y" => "4"})
@@ -184,7 +184,7 @@ class TC_GoogleDrive < Test::Unit::TestCase
 
       # Creates collection.
       collection = root.create_subcollection(test_collection_title)
-      assert_instance_of(GoogleDrive::Collection, collection)
+      assert_instance_of(OldGoogleDrive::Collection, collection)
       assert_equal(test_collection_title, collection.title)
       assert(!collection.root?)
       assert_not_nil(collection.resource_id)
@@ -193,13 +193,13 @@ class TC_GoogleDrive < Test::Unit::TestCase
       # Uploads a test file.
       test_file_path = File.join(File.dirname(__FILE__), "test_file.txt")
       file = session.upload_from_file(test_file_path, test_file_title, :convert => false)
-      assert_instance_of(GoogleDrive::File, file)
+      assert_instance_of(OldGoogleDrive::File, file)
       assert_equal(test_file_title, file.title)
       assert_equal(File.read(test_file_path), file.download_to_string())
 
       # Uploads an empty file.
       file2 = session.upload_from_string("", test_file2_title, :content_type => "text/plain", :convert => false)
-      assert_instance_of(GoogleDrive::File, file2)
+      assert_instance_of(OldGoogleDrive::File, file2)
       assert_equal(test_file2_title, file2.title)
       assert_equal("", file2.download_to_string())
 
@@ -243,7 +243,7 @@ class TC_GoogleDrive < Test::Unit::TestCase
  	    collection_feed_url =
           "https://docs.google.com/feeds/default/private/full/folder%3A" +
           "0B9GfDpQ2pBVUODNmOGE0NjIzMWU3ZC00NmUyLTk5NzEtYaFkZjY1MjAyxjMc"
-      session = GoogleDrive::Session.new_dummy()
+      session = OldGoogleDrive::Session.new_dummy()
 
       collection = session.collection_by_url(browser_url)
       assert_equal(collection_feed_url, collection.collection_feed_url)
@@ -291,11 +291,11 @@ class TC_GoogleDrive < Test::Unit::TestCase
             highline = HighLine.new()
             mail = highline.ask("Mail: ")
             password = highline.ask("Password: "){ |q| q.echo = false }
-            @@session = GoogleDrive.login(mail, password)
+            @@session = OldGoogleDrive.login(mail, password)
           when "saved_session"
-            @@session = GoogleDrive.saved_session
+            @@session = OldGoogleDrive.saved_session
           when "client_login"
-            @@session = GoogleDrive.login(account["mail"], account["password"])
+            @@session = OldGoogleDrive.login(account["mail"], account["password"])
           when "oauth2"
             client = OAuth2::Client.new(
                 account["oauth2_client_id"], account["oauth2_client_secret"],
@@ -312,7 +312,7 @@ class TC_GoogleDrive < Test::Unit::TestCase
             print("Open this URL in Web browser:\n  %s\nPaste authorization code here: " % url)
             code = gets().chomp()
             token = client.auth_code.get_token(code, :redirect_uri => redirect_url)
-            @@session = GoogleDrive.login_with_oauth(token)
+            @@session = OldGoogleDrive.login_with_oauth(token)
           else
             raise("auth_method field is missing in %s" % account_path)
         end
@@ -320,7 +320,7 @@ class TC_GoogleDrive < Test::Unit::TestCase
       return @@session
     end
 
-    # Wrapper of GoogleDrive::File#delete which makes sure not to delete non-test files.
+    # Wrapper of OldGoogleDrive::File#delete which makes sure not to delete non-test files.
     def delete_test_file(file, permanent = false)
       esc_prefix = Regexp.escape(PREFIX)
       if file.title =~ Regexp.new("\\A#{esc_prefix}")

@@ -13,8 +13,8 @@ module OldGoogleDrive
     
     # A spreadsheet.
     #
-    # Use methods in GoogleDrive::Session to get GoogleDrive::Spreadsheet object.
-    class Spreadsheet < GoogleDrive::File
+    # Use methods in OldGoogleDrive::Session to get OldGoogleDrive::Spreadsheet object.
+    class Spreadsheet < OldGoogleDrive::File
 
         include(Util)
         
@@ -43,7 +43,7 @@ module OldGoogleDrive
         def key
           if !(@worksheets_feed_url =~
               %r{^https?://spreadsheets.google.com/feeds/worksheets/(.*)/private/.*$})
-            raise(GoogleDrive::Error,
+            raise(OldGoogleDrive::Error,
               "Worksheets feed URL is in unknown format: #{@worksheets_feed_url}")
           end
           return $1
@@ -159,14 +159,14 @@ module OldGoogleDrive
           # authorization token, and it has a bug that it downloads PDF when text/html is
           # requested.
           raise(NotImplementedError,
-              "Use export_as_file or export_as_string instead for GoogleDrive::Spreadsheet.")
+              "Use export_as_file or export_as_string instead for OldGoogleDrive::Spreadsheet.")
         end
         
-        # Returns worksheets of the spreadsheet as array of GoogleDrive::Worksheet.
+        # Returns worksheets of the spreadsheet as array of OldGoogleDrive::Worksheet.
         def worksheets
           doc = @session.request(:get, @worksheets_feed_url)
           if doc.root.name != "feed"
-            raise(GoogleDrive::Error,
+            raise(OldGoogleDrive::Error,
                 "%s doesn't look like a worksheets feed URL because its root is not <feed>." %
                 @worksheets_feed_url)
           end
@@ -180,7 +180,7 @@ module OldGoogleDrive
           return result.freeze()
         end
         
-        # Returns a GoogleDrive::Worksheet with the given title in the spreadsheet.
+        # Returns a OldGoogleDrive::Worksheet with the given title in the spreadsheet.
         #
         # Returns nil if not found. Returns the first one when multiple worksheets with the
         # title are found.
@@ -188,7 +188,7 @@ module OldGoogleDrive
           return self.worksheets.find(){ |ws| ws.title == title }
         end
 
-        # Adds a new worksheet to the spreadsheet. Returns added GoogleDrive::Worksheet.
+        # Adds a new worksheet to the spreadsheet. Returns added OldGoogleDrive::Worksheet.
         def add_worksheet(title, max_rows = 100, max_cols = 20)
           xml = <<-"EOS"
             <entry xmlns='http://www.w3.org/2005/Atom'

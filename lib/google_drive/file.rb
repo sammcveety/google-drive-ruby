@@ -12,7 +12,7 @@ module OldGoogleDrive
     
     # A file in Google Drive, including Google Docs document/spreadsheet/presentation.
     #
-    # Use GoogleDrive::Session#files or GoogleDrive::Session#file_by_title to
+    # Use OldGoogleDrive::Session#files or OldGoogleDrive::Session#file_by_title to
     # get this object.
     class File
 
@@ -88,7 +88,7 @@ module OldGoogleDrive
               # URL of old API version. Converts to v3 URL.
               return "#{DOCS_BASE_URL}/#{$1}/acl"
             else
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                 "ACL feed URL is in unknown format: #{orig_acl_feed_url}")
           end
         end
@@ -138,12 +138,12 @@ module OldGoogleDrive
             url = contents[0]["src"]
           else
             if contents.empty?
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                   ("Downloading with content type %p not supported for this file. " +
                    "Specify one of these to content_type: %p") %
                   [params[:content_type], self.available_content_types])
             else
-              raise(GoogleDrive::Error,
+              raise(OldGoogleDrive::Error,
                   ("Multiple content types are available for this file. " +
                    "Specify one of these to content_type: %p") %
                   [self.available_content_types])
@@ -207,7 +207,7 @@ module OldGoogleDrive
         
         alias title= rename
         
-        # Returns GoogleDrive::Acl object for the file.
+        # Returns OldGoogleDrive::Acl object for the file.
         #
         # With the object, you can see and modify people who can access the file.
         # Modifications take effect immediately.

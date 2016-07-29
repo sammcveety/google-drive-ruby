@@ -6,8 +6,8 @@ require "google_drive/session"
 
 module OldGoogleDrive
 
-    # Authenticates with given +mail+ and +password+, and returns GoogleDrive::Session
-    # if succeeds. Raises GoogleDrive::AuthenticationError if fails.
+    # Authenticates with given +mail+ and +password+, and returns OldGoogleDrive::Session
+    # if succeeds. Raises OldGoogleDrive::AuthenticationError if fails.
     # Google Apps account is supported.
     #
     # +proxy+ can be nil or return value of Net::HTTP.Proxy. If +proxy+ is specified, all
@@ -36,14 +36,14 @@ module OldGoogleDrive
     #   # Redirect the user to auth_url and get authorization code from redirect URL.
     #   auth_token = client.auth_code.get_token(
     #       authorization_code, :redirect_uri => "http://example.com/")
-    #   session = GoogleDrive.login_with_oauth(auth_token)
+    #   session = OldGoogleDrive.login_with_oauth(auth_token)
     #
     # Or, from existing refresh token:
     #
     #   access_token = OAuth2::AccessToken.from_hash(client,
     #       {:refresh_token => refresh_token, :expires_at => expires_at})
     #   access_token = access_token.refresh!
-    #   session = GoogleDrive.login_with_oauth(access_token)
+    #   session = OldGoogleDrive.login_with_oauth(access_token)
     #
     # If your app is not a Web app, use "urn:ietf:wg:oauth:2.0:oob" as redirect_url. Then
     # authorization code is shown after authorization.
@@ -74,12 +74,12 @@ module OldGoogleDrive
 
     # Restores session using return value of auth_tokens method of previous session.
     #
-    # See GoogleDrive.login for description of parameter +proxy+.
+    # See OldGoogleDrive.login for description of parameter +proxy+.
     def self.restore_session(auth_tokens, proxy = nil)
       return Session.restore_session(auth_tokens, proxy)
     end
     
-    # Restores GoogleDrive::Session from +path+ and returns it.
+    # Restores OldGoogleDrive::Session from +path+ and returns it.
     # If +path+ doesn't exist or authentication has failed, prompts mail and password on console,
     # authenticates with them, stores the session to +path+ and returns it.
     #
@@ -102,7 +102,7 @@ module OldGoogleDrive
           require "highline"
         rescue LoadError
           raise(LoadError,
-            "GoogleDrive.saved_session requires Highline library.\n" +
+            "OldGoogleDrive.saved_session requires Highline library.\n" +
             "Run\n" +
             "  \$ sudo gem install highline\n" +
             "to install it.")

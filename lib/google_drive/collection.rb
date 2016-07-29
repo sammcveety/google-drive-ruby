@@ -8,9 +8,9 @@ require "google_drive/spreadsheet"
 
 module OldGoogleDrive
 
-    # Use GoogleDrive::Session#root_collection, GoogleDrive::Collection#subcollections,
-    # or GoogleDrive::Session#collection_by_url to get GoogleDrive::Collection object.
-    class Collection < GoogleDrive::File
+    # Use OldGoogleDrive::Session#root_collection, OldGoogleDrive::Collection#subcollections,
+    # or OldGoogleDrive::Session#collection_by_url to get OldGoogleDrive::Collection object.
+    class Collection < OldGoogleDrive::File
 
         include(Util)
         
@@ -45,7 +45,7 @@ module OldGoogleDrive
           return self.root? ? nil : super
         end
         
-        # Adds the given GoogleDrive::File to the collection.
+        # Adds the given OldGoogleDrive::File to the collection.
         def add(file)
           header = {"GData-Version" => "3.0", "Content-Type" => "application/atom+xml"}
           xml = <<-"EOS"
@@ -58,7 +58,7 @@ module OldGoogleDrive
           return nil
         end
 
-        # Creates a sub-collection with given title. Returns GoogleDrive::Collection object.
+        # Creates a sub-collection with given title. Returns OldGoogleDrive::Collection object.
         def create_subcollection(title)
           header = {"GData-Version" => "3.0", "Content-Type" => "application/atom+xml"}
           xml = <<-EOS
@@ -73,7 +73,7 @@ module OldGoogleDrive
           return @session.entry_element_to_file(doc)
         end
 
-        # Removes the given GoogleDrive::File from the collection.
+        # Removes the given OldGoogleDrive::File from the collection.
         def remove(file)
           url = to_v3_url("#{contents_url}/#{file.resource_id}")
           @session.request(:delete, url, :auth => :writely, :header => {"If-Match" => "*"})
@@ -117,7 +117,7 @@ module OldGoogleDrive
           return files_with_type("folder", params)
         end
         
-        # Returns its subcollection whose title exactly matches +title+ as GoogleDrive::Collection.
+        # Returns its subcollection whose title exactly matches +title+ as OldGoogleDrive::Collection.
         # Returns nil if not found. If multiple collections with the +title+ are found, returns
         # one of them.
         def subcollection_by_title(title)

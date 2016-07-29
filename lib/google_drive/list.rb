@@ -9,11 +9,11 @@ require "google_drive/list_row"
 module OldGoogleDrive
 
     # Provides access to cells using column names.
-    # Use GoogleDrive::Worksheet#list to get GoogleDrive::List object.
+    # Use OldGoogleDrive::Worksheet#list to get OldGoogleDrive::List object.
     #--
-    # This is implemented as wrapper of GoogleDrive::Worksheet i.e. using cells
+    # This is implemented as wrapper of OldGoogleDrive::Worksheet i.e. using cells
     # feed, not list feed. In this way, we can easily provide consistent API as
-    # GoogleDrive::Worksheet using save()/reload().
+    # OldGoogleDrive::Worksheet using save()/reload().
     class List
         
         include(Enumerable)
@@ -27,12 +27,12 @@ module OldGoogleDrive
           return @worksheet.num_rows - 1
         end
         
-        # Returns Hash-like object (GoogleDrive::ListRow) for the row with the
+        # Returns Hash-like object (OldGoogleDrive::ListRow) for the row with the
         # index. Keys of the object are colum names (the first row).
         # The second row has index 0.
         #
         # Note that updates to the returned object are not sent to the server until
-        # you call GoogleDrive::Worksheet#save().
+        # you call OldGoogleDrive::Worksheet#save().
         def [](index)
           return ListRow.new(self, index)
         end
@@ -42,12 +42,12 @@ module OldGoogleDrive
         # The second row has index 0.
         #
         # Note that update is not sent to the server until
-        # you call GoogleDrive::Worksheet#save().
+        # you call OldGoogleDrive::Worksheet#save().
         def []=(index, hash)
           self[index].replace(hash)
         end
         
-        # Iterates over Hash-like object (GoogleDrive::ListRow) for each row
+        # Iterates over Hash-like object (OldGoogleDrive::ListRow) for each row
         # (except for the first row).
         # Keys of the object are colum names (the first row).
         def each(&block)
@@ -65,7 +65,7 @@ module OldGoogleDrive
         # Updates column names i.e. the contents of the first row.
         #
         # Note that update is not sent to the server until
-        # you call GoogleDrive::Worksheet#save().
+        # you call OldGoogleDrive::Worksheet#save().
         def keys=(ary)
           for i in 1..ary.size
             @worksheet[1, i] = ary[i - 1]
@@ -77,10 +77,10 @@ module OldGoogleDrive
         
         # Adds a new row to the bottom.
         # Keys of +hash+ are colum names (the first row).
-        # Returns GoogleDrive::ListRow for the new row.
+        # Returns OldGoogleDrive::ListRow for the new row.
         #
         # Note that update is not sent to the server until
-        # you call GoogleDrive::Worksheet#save().
+        # you call OldGoogleDrive::Worksheet#save().
         def push(hash)
           row = self[self.size]
           row.update(hash)
@@ -110,7 +110,7 @@ module OldGoogleDrive
         def key_to_col(key)
           key = key.to_s()
           col = (1..@worksheet.num_cols).find(){ |c| @worksheet[1, c] == key }
-          raise(GoogleDrive::Error, "Column doesn't exist: %p" % key) if !col
+          raise(OldGoogleDrive::Error, "Column doesn't exist: %p" % key) if !col
           return col
         end
         

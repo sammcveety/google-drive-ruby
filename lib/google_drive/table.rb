@@ -11,8 +11,8 @@ module OldGoogleDrive
     # DEPRECATED: Table and Record feeds are deprecated and they will not be available after
     # March 2012.
     #
-    # Use GoogleDrive::Worksheet#add_table to create table.
-    # Use GoogleDrive::Worksheet#tables to get GoogleDrive::Table objects.
+    # Use OldGoogleDrive::Worksheet#add_table to create table.
+    # Use OldGoogleDrive::Worksheet#tables to get OldGoogleDrive::Table objects.
     class Table
 
         include(Util)

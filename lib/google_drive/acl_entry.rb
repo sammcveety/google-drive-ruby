@@ -8,7 +8,7 @@ module OldGoogleDrive
 
     # An entry of an ACL (access control list) of a spreadsheet.
     #
-    # Use GoogleDrive::Acl#[] to get GoogleDrive::AclEntry object.
+    # Use OldGoogleDrive::Acl#[] to get OldGoogleDrive::AclEntry object.
     #
     # This code is based on https://github.com/guyboertje/gdata-spreadsheet-ruby .
     class AclEntry

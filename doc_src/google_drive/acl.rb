@@ -6,11 +6,11 @@ module OldGoogleDrive
         def size
         end
         
-        # Returns GoogleDrive::AclEntry object at +index+.
+        # Returns OldGoogleDrive::AclEntry object at +index+.
         def [](index)
         end
         
-        # Iterates over GoogleDrive::AclEntry objects.
+        # Iterates over OldGoogleDrive::AclEntry objects.
         def each(&block)
           yield(entry)
         end

@@ -9,8 +9,8 @@ module OldGoogleDrive
 
     # ACL (access control list) of a spreadsheet.
     #
-    # Use GoogleDrive::Spreadsheet#acl to get GoogleDrive::Acl object.
-    # See GoogleDrive::Spreadsheet#acl for usage example.
+    # Use OldGoogleDrive::Spreadsheet#acl to get OldGoogleDrive::Acl object.
+    # See OldGoogleDrive::Spreadsheet#acl for usage example.
     #
     # This code is based on https://github.com/guyboertje/gdata-spreadsheet-ruby .
     class Acl
@@ -28,9 +28,9 @@ module OldGoogleDrive
 
         def_delegators(:@acls, :size, :[], :each)
 
-        # Adds a new entry. +entry+ is either a GoogleDrive::AclEntry or a Hash with keys
-        # :scope_type, :scope and :role. See GoogleDrive::AclEntry#scope_type and
-        # GoogleDrive::AclEntry#role for the document of the fields.
+        # Adds a new entry. +entry+ is either a OldGoogleDrive::AclEntry or a Hash with keys
+        # :scope_type, :scope and :role. See OldGoogleDrive::AclEntry#scope_type and
+        # OldGoogleDrive::AclEntry#role for the document of the fields.
         #
         # NOTE: This sends email to the new people.
         #
